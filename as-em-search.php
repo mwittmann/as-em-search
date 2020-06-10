@@ -11,8 +11,8 @@
  *
  * @wordpress-plugin
  * Plugin Name:       AS EM Search
- * Description:       Makes it possible to search in bookings and events
- * Version:           1.1.0
+ * Description:       Makes it possible to search in Events Manager bookings and events
+ * Version:           1.1.1
  * Author:            KoenG
  * Text Domain:       as-em-search
  * Domain Path:       /languages

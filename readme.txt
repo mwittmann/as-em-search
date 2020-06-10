@@ -4,7 +4,7 @@ Donate link: http://example.com/
 Tags: search, bookings, events, find
 Requires at least: 4.0
 Tested up to: 5.4.1
-Stable tag: 1.0.1
+Stable tag: 1.1.1
 License: The MIT License (MIT)
 License URI: http://opensource.org/licenses/MIT
 
@@ -45,12 +45,12 @@ Please post an issue in the github issue tracker.
 
 == Changelog ==
  
-= 1.0.1 =
+= 1.1.1 =
 * Added 'Booking Date', 'Booking Status', and 'Country' to the results columns.
 * Multisite compatibility: will search the current site only.
 * Limit results to first 100 records (sorted by most recent booking date first).
 * Added a simple help prompt and "no results" message.
 * Added standard WP formatting to results.
  
-= 1.0.0 =
+= 1.1.0 =
 * Original version
