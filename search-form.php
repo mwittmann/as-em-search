@@ -11,7 +11,7 @@ if ( ! defined( 'WPINC' ) ) {
         $search_results = null;
     }
 ?>
-<div><?php _e('Search bookings','as-em-search');?></div>
+<h1><?php _e('Search bookings','as-em-search');?></h1>
 <form method="get">
     <input type="hidden" name="post_type" value="<?php echo EM_POST_TYPE_EVENT;?>">
     <input type="hidden" name="page" value="events-manager-search-form">
@@ -21,7 +21,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 <div>
     <?php if( null != $search_results ): ?>
-        <table>
+        <table class="wp-list-table widefat fixed striped pages">
             <thead>
                 <tr>
                     <th><?php _e('Name', 'as-em-search');?></th>
@@ -29,6 +29,8 @@ if ( ! defined( 'WPINC' ) ) {
                     <th><?php _e('City','as-em-search');?></th>
                     <th><?php _e('Phone','as-em-search');?></th>
                     <th><?php _e('Spaces','as-em-search');?></th>
+                    <th><?php _e('Booked On','as-em-search');?></th>
+                    <th><?php _e('Status','as-em-search');?></th>
                 </tr>
             </thead>
             <tbody>
@@ -44,7 +46,7 @@ if ( ! defined( 'WPINC' ) ) {
                         $event_name = as_em_get_event_name( $event_id );
                     ?>
                     <tr>
-                        <td colspan="5"><?php echo $event_name;?></td>
+                        <td colspan="7"><?php echo $event_name;?></td>
                     </tr>
                 <?php endif;?>
                 <tr>
@@ -71,8 +73,19 @@ if ( ! defined( 'WPINC' ) ) {
                     <td>
                         <?php echo $result->booking_spaces;?>
                     </td>
+                    <td>
+                        <?php echo $result->booking_date;?>
+                    </td>
+                    <td>
+                        <?php echo $result->booking_status;?>
+                    </td>
                 </tr>
             <?php endforeach;?>
+            <?php if( count($search_results) > 100 ):?>
+                <tr>
+                    <td colspan="7">Only first 100 results are shown</td>
+                </tr>
+            <?php endif;?>
             </tbody>
         </table>
     <?php endif; ?>

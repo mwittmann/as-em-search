@@ -46,11 +46,18 @@ function as_em_search_show_form(){
 function as_em_search( $search_term ) {
     global $wpdb;
     $table_name = EM_BOOKINGS_TABLE;
-
-    $query = $wpdb->prepare(
-        "SELECT booking_id, event_id, booking_spaces, booking_meta FROM $table_name WHERE booking_meta LIKE %s ORDER BY event_id",
-        '%' . $search_term . '%'
-    );
+    $events_tbl = EM_EVENTS_TABLE;
+    $blog_id = get_current_blog_id();
+    $sql = <<<EOD
+SELECT b.booking_id, b.event_id, b.booking_spaces, booking_status, b.booking_meta, b.booking_date 
+    FROM $table_name b
+    INNER JOIN $events_tbl e on b.event_id = e.event_id
+    WHERE b.booking_meta LIKE %s 
+    AND e.blog_id = %d
+    ORDER BY b.event_id, b.booking_date desc
+    LIMIT 101
+EOD;
+    $query = $wpdb->prepare($sql, '%' . $search_term . '%', $blog_id);
 
     return $wpdb->get_results($query) ;
 }
