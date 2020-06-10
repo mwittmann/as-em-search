@@ -10,6 +10,13 @@ if ( ! defined( 'WPINC' ) ) {
     } else {
         $search_results = null;
     }
+    $as_em_status_array = array(
+        0 => 'Pending',
+        1 => 'Approved',
+        2 => 'Rejected',
+        3 => 'Cancelled',
+        4 => 'Awaiting Payment'
+    );
 ?>
 <h1><?php _e('Search bookings','as-em-search');?></h1>
 <form method="get">
@@ -27,6 +34,7 @@ if ( ! defined( 'WPINC' ) ) {
                     <th><?php _e('Name', 'as-em-search');?></th>
                     <th><?php _e('Email', 'as-em-search');?></th>
                     <th><?php _e('City','as-em-search');?></th>
+                    <th><?php _e('Country','as-em-search');?></th>
                     <th><?php _e('Phone','as-em-search');?></th>
                     <th><?php _e('Spaces','as-em-search');?></th>
                     <th><?php _e('Booked On','as-em-search');?></th>
@@ -46,7 +54,7 @@ if ( ! defined( 'WPINC' ) ) {
                         $event_name = as_em_get_event_name( $event_id );
                     ?>
                     <tr>
-                        <td colspan="7"><?php echo $event_name;?></td>
+                        <td colspan="8"><?php echo $event_name;?></td>
                     </tr>
                 <?php endif;?>
                 <tr>
@@ -68,6 +76,9 @@ if ( ! defined( 'WPINC' ) ) {
                         <?php echo $meta['dbem_city'];?>
                     </td>
                     <td>
+                        <?php echo $meta['dbem_country'];?>
+                    </td>
+                    <td>
                         <?php echo $meta['dbem_phone'];?>
                     </td>
                     <td>
@@ -77,16 +88,20 @@ if ( ! defined( 'WPINC' ) ) {
                         <?php echo $result->booking_date;?>
                     </td>
                     <td>
-                        <?php echo $result->booking_status;?>
+                        <?php echo ($result->booking_status < 4 ? $as_em_status_array[$result->booking_status] : "Awaiting Payment (#$result->booking_status)"); ?>
                     </td>
                 </tr>
             <?php endforeach;?>
             <?php if( count($search_results) > 100 ):?>
                 <tr>
-                    <td colspan="7">Only first 100 results are shown</td>
+                    <td colspan="8">Only first 100 results are shown</td>
                 </tr>
             <?php endif;?>
             </tbody>
         </table>
+    <?php elseif( ! empty( $_GET ) && isset( $_GET['as_em_search'] ) ): ?>
+        <p>No results for "<?php echo $_GET['as_em_search']?>".</p>
+    <?php else: ?>
+        <p>Enter your search term above.&nbsp; Up to 100 rows are returned in descending booking date order.</p>
     <?php endif; ?>
 </div>
