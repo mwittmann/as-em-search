@@ -46,9 +46,10 @@ Please post an issue in the github issue tracker.
 == Changelog ==
  
 = 1.0.1 =
-* Added 'Booking Date' and 'Booking Status' to the results columns.
+* Added 'Booking Date', 'Booking Status', and 'Country' to the results columns.
 * Multisite compatibility: will search the current site only.
 * Limit results to first 100 records (sorted by most recent booking date first).
+* Added a simple help prompt and "no results" message.
 * Added standard WP formatting to results.
  
 = 1.0.0 =
