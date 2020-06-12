@@ -12,7 +12,7 @@
  * @wordpress-plugin
  * Plugin Name:       AS EM Search
  * Description:       Makes it possible to search in Events Manager bookings and events
- * Version:           1.1.1
+ * Version:           1.1.2
  * Author:            KoenG
  * Text Domain:       as-em-search
  * Domain Path:       /languages
@@ -27,6 +27,20 @@ if ( ! defined( 'WPINC' ) ) {
 add_filter('em_create_events_submenu', 'as_em_search_admin_menu');
 
 function as_em_search_admin_menu($plugin_pages){
+    // first check if current user has custom capability 'as_em_search'
+    if (current_user_can( 'as_em_search' )) {
+        $plugin_pages['search_form'] =
+        add_submenu_page(
+            'edit.php?post_type='.EM_POST_TYPE_EVENT,
+            __('Search bookings','as-em-search'),
+            __('Search bookings','as-em-search'),
+            'as_em_search',
+            "events-manager-search-form",
+            'as_em_search_show_form'
+        );
+        return $plugin_pages;
+    }
+    // fall back to the default 'list_users' capability
     $plugin_pages['search_form'] =
         add_submenu_page(
             'edit.php?post_type='.EM_POST_TYPE_EVENT,

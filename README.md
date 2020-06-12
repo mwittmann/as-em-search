@@ -20,3 +20,7 @@ This way it's in the correct folder and you can update the plugin by going to th
 directory and use git pull to obtain the latest version.
 
 Don't forget to activate the plugin through the 'Plugins' menu in WordPress
+
+**Permissions**
+
+Roles that have the `list_users` capability can access the search page. Alternatively, users with the custom `as_em_search` capability can access the search page. (The plugin does not add or remove this custom capability, but checks for it. You can add it using WP-CLI or a role editor plugin.)
