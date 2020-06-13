@@ -51,10 +51,13 @@ if ( ! defined( 'WPINC' ) ) {
                 <?php if( $event_id != $result->event_id ):?>
                     <?php
                         $event_id = $result->event_id;
-                        $event_name = as_em_get_event_name( $event_id );
+                        $event_info = as_em_get_event_info( $event_id );
                     ?>
                     <tr>
-                        <td colspan="8"><?php echo $event_name;?></td>
+                        <td colspan="3" class="as_evtname"><h3><?php echo $event_info['event_name'];?></h3></td>
+                        <td colspan="5" style="vertical-align:middle;" class="as_evtstart">
+                            starts on: <?php echo $event_info['event_start_date'].' '.$event_info['event_start_time'].' (local) / '.$event_info['event_start'].' UTC';?>
+                        </td>
                     </tr>
                 <?php endif;?>
                 <tr>
@@ -94,7 +97,7 @@ if ( ! defined( 'WPINC' ) ) {
             <?php endforeach;?>
             <?php if( count($search_results) > 100 ):?>
                 <tr>
-                    <td colspan="8">Only first 100 results are shown</td>
+                    <td colspan="8">Only the first 100 results are shown</td>
                 </tr>
             <?php endif;?>
             </tbody>
@@ -102,6 +105,6 @@ if ( ! defined( 'WPINC' ) ) {
     <?php elseif( ! empty( $_GET ) && isset( $_GET['as_em_search'] ) ): ?>
         <p>No results for "<?php echo $_GET['as_em_search']?>".</p>
     <?php else: ?>
-        <p>Enter your search term above.&nbsp; Up to 100 rows are returned in descending booking date order.</p>
+        <p>Enter your search term above.&nbsp; Up to 100 rows are returned, sorted by most recent events and most recent bookings first.</p>
     <?php endif; ?>
 </div>

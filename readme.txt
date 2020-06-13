@@ -4,7 +4,7 @@ Donate link: http://example.com/
 Tags: search, bookings, events, find
 Requires at least: 4.0
 Tested up to: 5.4.1
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: The MIT License (MIT)
 License URI: http://opensource.org/licenses/MIT
 
@@ -43,8 +43,13 @@ Yes.
 
 Please post an issue in the github issue tracker.
 
+
 == Changelog ==
  
+= 1.1.3 =
+* Sort events by most recent first.
+* Improve event name formatting, and include start date and time.
+
 = 1.1.2 =
 * Added permissions check for custom 'as_em_search' capability.
 

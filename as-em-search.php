@@ -12,7 +12,7 @@
  * @wordpress-plugin
  * Plugin Name:       AS EM Search
  * Description:       Makes it possible to search in Events Manager bookings and events
- * Version:           1.1.2
+ * Version:           1.1.3
  * Author:            KoenG
  * Text Domain:       as-em-search
  * Domain Path:       /languages
@@ -68,7 +68,7 @@ SELECT b.booking_id, b.event_id, b.booking_spaces, booking_status, b.booking_met
     INNER JOIN $events_tbl e on b.event_id = e.event_id
     WHERE b.booking_meta LIKE %s 
     AND e.blog_id = %d
-    ORDER BY b.event_id, b.booking_date desc
+    ORDER BY e.event_start desc, b.event_id desc, b.booking_date desc
     LIMIT 101
 EOD;
     $query = $wpdb->prepare($sql, '%' . $search_term . '%', $blog_id);
@@ -76,13 +76,13 @@ EOD;
     return $wpdb->get_results($query) ;
 }
 
-function as_em_get_event_name( $event_id ) {
+function as_em_get_event_info( $event_id ) {
     global $wpdb;
 
-    $query = $wpdb->prepare('SELECT event_name FROM ' . EM_EVENTS_TABLE . ' WHERE event_id = %d', $event_id);
+    $query = $wpdb->prepare('SELECT event_name, event_start_date, event_start_time, event_start FROM ' . EM_EVENTS_TABLE . ' WHERE event_id = %d', $event_id);
     $event = $wpdb->get_row($query, ARRAY_A);
 
-    return $event['event_name'];
+    return $event;
 }
 
 function as_em_search_load_plugin_textdomain() {
