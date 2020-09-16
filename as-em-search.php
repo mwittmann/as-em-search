@@ -61,8 +61,10 @@ function as_em_search( $search_term ) {
     global $wpdb;
     $table_name = EM_BOOKINGS_TABLE;
     $events_tbl = EM_EVENTS_TABLE;
-    $blog_id = get_current_blog_id();
-    $sql = <<<EOD
+    if (is_multisite()) {
+        # for multisite, join on blog_id
+        $blog_id = get_current_blog_id();
+        $sql = <<<EOD
 SELECT b.booking_id, b.event_id, b.booking_spaces, booking_status, b.booking_meta, b.booking_date 
     FROM $table_name b
     INNER JOIN $events_tbl e on b.event_id = e.event_id
@@ -71,7 +73,20 @@ SELECT b.booking_id, b.event_id, b.booking_spaces, booking_status, b.booking_met
     ORDER BY e.event_start desc, b.event_id desc, b.booking_date desc
     LIMIT 101
 EOD;
-    $query = $wpdb->prepare($sql, '%' . $search_term . '%', $blog_id);
+        $query = $wpdb->prepare($sql, '%' . $search_term . '%', $blog_id);
+    } else {
+        # if not multisite, the wp_em_events.blog_id might be null, 0 or 1
+        $sql = <<<EOD
+SELECT b.booking_id, b.event_id, b.booking_spaces, booking_status, b.booking_meta, b.booking_date 
+    FROM $table_name b
+    INNER JOIN $events_tbl e on b.event_id = e.event_id
+    WHERE b.booking_meta LIKE %s 
+    AND (e.blog_id IS NULL or e.blog_id <= 1)
+    ORDER BY e.event_start desc, b.event_id desc, b.booking_date desc
+    LIMIT 101
+EOD;
+        $query = $wpdb->prepare($sql, '%' . $search_term . '%');
+    }
 
     return $wpdb->get_results($query) ;
 }
